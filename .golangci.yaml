@@ -1,0 +1,67 @@
+# More info on config here: https://golangci-lint.run/usage/configuration/#config-file
+run:
+  concurrency: 8
+  timeout: 10m
+  issues-exit-code: 1
+  tests: true
+
+issues:
+  exclude-use-default: false
+  exclude-dirs:
+    - bin
+    - vendor
+    - var
+    - tmp
+    - .cache
+    - sandbox
+  exclude-files:
+    - \.pb\.go$
+    - \.pb\.gw\.go$
+  exclude:
+    # _ instead of err checks
+    - G104
+    - exported func .* returns unexported type .*, which can be annoying to use
+    - should have a package comment
+    - don't use an underscore in package name
+
+output:
+  formats: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+linters-settings:
+  dupl:
+    threshold: 100
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  gci:
+    sections:
+      - standard
+      - default
+      - prefix(github.com/agbgru/auth/)
+
+linters:
+  enable-all: true
+  disable:
+    - varnamelen # Useless linter.
+    - exhaustive # Stupid linter.
+    - ireturn
+    - gofumpt
+    # Bottom linters from 1.46, but CI use the 1.45.2.
+    - execinquery # Not work in v1.46.
+    - exhaustruct
+    - nosprintfhostport
+    - nonamedreturns
+    - tagliatelle
+    - gomoddirectives
+    - predeclared
+    - gomnd # deprecated, use mnd.
+    - depguard # straight useless linter
+    - tagalign # useless linter
+    - inamedparam # useless linter
+    # Need to enable this and bottom linters letter!!!!!!!!!!!!!!!!
+    - perfsprint
+    - copyloopvar
+    - intrange
+    - protogetter
