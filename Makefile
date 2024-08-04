@@ -26,3 +26,14 @@ generate-auth-api:
 	--go-grpc_out=pkg/auth_v1 --go-grpc_opt=paths=source_relative \
 	--plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc \
 	api/auth_v1/auth.proto
+
+build:
+	GOOS=linux GOARCH=amd64 go build -o service_linux cmd/grpc_server/main.go
+
+copy-to-server:
+	scp service_linux root@87.242.107.95:
+
+docker-build-and-push:
+	docker buildx build --no-cache --platform linux/amd64 -t cr.selcloud.ru/artem/auth-server:v0.0.1 .
+	docker login -u token -p CRgAAAAAFC7euSamlazPp24Wk4eJAXA204I8B2jP cr.selcloud.ru/artem
+	docker push cr.selcloud.ru/artem/auth-server:v0.0.1
