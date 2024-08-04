@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main, master ]
 
-emv:
+env:
   REGISTRY: "cr.selcloud.ru/artem"
   IMAGE_NAME: "auth-server"
   CONTAINER-NAME: "auth-server-container"
